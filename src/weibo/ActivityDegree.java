@@ -14,6 +14,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.bigdata.util.HadoopConfig;
 
+//落雪是二货！！
 
 /**
  * 统计微博用户活跃度
