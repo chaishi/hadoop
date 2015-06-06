@@ -15,7 +15,7 @@ import org.bigdata.util.HadoopConfig;
 import org.bigdata.util.WordCount;
 
 /**
- * 获取微博任务关注关系
+ * 获取微博用户关注关系
  * @author 雪
  * @time 20150523
  */

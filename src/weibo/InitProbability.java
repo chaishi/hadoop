@@ -32,6 +32,7 @@ public class InitProbability {
 		
 	}
 	
+	//输出格式为: 1000080335	a	0.00001571314		
 	public static class InitProbabilityReducer extends Reducer<Text, Text, Text, Text>{
 
 		@Override
