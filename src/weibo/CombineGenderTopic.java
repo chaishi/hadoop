@@ -16,11 +16,12 @@ import org.bigdata.util.HadoopConfig;
 
 
 /**
- * 通过userId将用户性别，和topic关联起来
+ * 因为微博topic 和  用户性别在2个文件中，所以需要先通过userId将用户性别，和topic关联起来
  * @author 雪
  * @time 20150526
  */
 public class CombineGenderTopic {
+	//输出键值key为userId, 键值value 为  gender 或  topic
 	private static class CombineGenderTopicMapper extends Mapper<LongWritable, Text, Text, Text>{
 
 		@Override
@@ -31,14 +32,14 @@ public class CombineGenderTopic {
 			Path filePath = fileSplit.getPath();
 			String fileName = filePath.getName();
 			String[] strs = value.toString().split("~");
-			if(fileName.startsWith("user")){
+			if(fileName.startsWith("user")){ //读取user文件时，里面有gender和userId的信息
 				context.write(new Text(strs[0]), new Text(strs[3]));
-			}else{
+			}else{//读取weibo文件时，里面有topic和 userId信息
 				context.write(new Text(strs[6]), new Text(strs[7]));
 			}
 		}
 	}
-	
+	//根据userId 将gender和topic聚集在一起
 	private static class CombineGenderTopicReducer extends Reducer<Text, Text, Text, Text>{
 
 		@Override

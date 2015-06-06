@@ -20,6 +20,7 @@ import org.bigdata.util.HadoopConfig;
  * @time 20150526
  */
 public class GenderPercentage {
+	//分离topic 和 gender ； 输出topic 为 key， gender 为 value
 	private static class GenderPercentageMapper extends Mapper<LongWritable, Text, Text, Text>{
 
 		@Override
@@ -35,6 +36,7 @@ public class GenderPercentage {
 		
 	}
 	
+	//根据传入的key统计男女人数
 	private static class GenderPercentageReducer extends Reducer<Text, Text, Text, Text>{
 
 		@Override
