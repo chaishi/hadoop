@@ -53,7 +53,6 @@ public class GenderPercentage {
 					maleNum++;
 				}
 			}
-			
 			String outKey = "{" + "\"topic\":" + "\"" + key + "\"" + ", ";
 			String outValue = "\"男\":" + maleNum + ", " + "\"女\":" + femaleNum + "},";
 			//[{"topic":"火箭","男":234,"女":34},{}]

@@ -28,8 +28,10 @@ public class ActivityDegree {
 				Mapper<LongWritable, Text, IntWritable, Text>.Context context)
 				throws IOException, InterruptedException {
 			String[] strs = value.toString().split("~");
+			//计算该用户的微博数和微博转发数
 			int activityNum = Integer.parseInt(strs[1]) + Integer.parseInt(strs[2]);
 			int i;
+			//输出格式：key = 0		value = 1500#1，这样可以利用MR自动排序功能进行排序.
 			for(i = 0; i < 20000; i += 1500){
 				if(activityNum >= i && activityNum < i + 1500){
 					context.write(new IntWritable(i), new Text((i + 1500) + "#" +1));
@@ -50,7 +52,7 @@ public class ActivityDegree {
 				Reducer<IntWritable, Text, Text, Text>.Context context)
 				throws IOException, InterruptedException {
 			int num = 0;
-			String stand = "";//范围最高值
+			String stand = "";//range_high
 			for(Text value:values){
 				String[] strs = value.toString().split("#");
 				num += Integer.parseInt(strs[1]);

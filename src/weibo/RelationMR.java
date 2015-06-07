@@ -27,6 +27,7 @@ public class RelationMR {
 				Mapper<LongWritable, Text, Text, Text>.Context context)
 				throws IOException, InterruptedException {
 			String[] strs = value.toString().split(",");
+			//key = userId ; value = 关注的userId 
 			context.write(new Text(strs[0]), new Text(strs[1]));
 		}
 		

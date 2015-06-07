@@ -30,13 +30,13 @@ public class UserNameInfluence {
 			Path filePath = fileSplit.getPath();
 			String fileName = filePath.getName();
 			String[] strs = null;
-			if(fileName.startsWith("user")){
+			if(fileName.startsWith("user")){//获取username
 				strs = value.toString().trim().split("~");
 				context.write(new Text(strs[0]), new Text(strs[strs.length - 1] + ":username"));
-			}else if(fileName.startsWith("influence")){
+			}else if(fileName.startsWith("influence")){//获取用户影响力
 				strs = value.toString().trim().split("\t");
 				context.write(new Text(strs[0]), new Text(strs[strs.length - 1] + ":influence"));
-			}else{//"relation"
+			}else{//获取用户关注的用户;"relation"
 				strs = value.toString().trim().split("\t",2);
 				context.write(new Text(strs[0]), new Text(strs[1] + ":relation"));
 			}

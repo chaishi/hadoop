@@ -27,6 +27,7 @@ public class CityUserNum {
 				Mapper<LongWritable, Text, Text, IntWritable>.Context context)
 				throws IOException, InterruptedException {
 			String[] strs = value.toString().split("~");
+			//输出格式： key = province; value = 1
 			context.write(new Text(strs[6].split(" ")[0]), new IntWritable(1));
 		}
 		

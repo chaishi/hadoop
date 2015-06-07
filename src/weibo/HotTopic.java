@@ -28,10 +28,10 @@ public class HotTopic {
 				throws IOException, InterruptedException {
 			String strs[] = value.toString().split("~",9);
 			long num = 0;
-			num += Long.parseLong(strs[3]);
-			num += Long.parseLong(strs[4]);
-			num += Long.parseLong(strs[5]);
-		
+			num += Long.parseLong(strs[3]);//回复数量
+			num += Long.parseLong(strs[4]);//评论数量
+			num += Long.parseLong(strs[5]);//点赞数量
+			//key = topic ; value = 总数量(即num)
 			context.write(new Text(strs[7]), new LongWritable(num));
 		}
 	}

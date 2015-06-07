@@ -21,7 +21,6 @@ import org.bigdata.util.HadoopConfig;
  * @time 20150526
  */
 public class CombineGenderTopic {
-	//输出键值key为userId, 键值value 为  gender 或  topic
 	private static class CombineGenderTopicMapper extends Mapper<LongWritable, Text, Text, Text>{
 
 		@Override
@@ -32,6 +31,7 @@ public class CombineGenderTopic {
 			Path filePath = fileSplit.getPath();
 			String fileName = filePath.getName();
 			String[] strs = value.toString().split("~");
+			//输出键值key = userId, 键值value =  gender ||  topic
 			if(fileName.startsWith("user")){ //读取user文件时，里面有gender和userId的信息
 				context.write(new Text(strs[0]), new Text(strs[3]));
 			}else{//读取weibo文件时，里面有topic和 userId信息
@@ -55,6 +55,7 @@ public class CombineGenderTopic {
 					str[1] = gender;
 				}
 			}
+			//输出格式：1000080335	f$火箭
 			context.write(new Text(key), new Text(str[0] + "$" + str[1]));
 		}
 		

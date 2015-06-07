@@ -37,7 +37,7 @@ public class PageRankStep2 {
 				String outKey = strs1[0];
 				Double p = Double.parseDouble(strs1[1]);
 				context.write(new Text(outKey), new DoubleWritable(0.0));
-				
+				//关注的用户
 				if(strs.length > 1){
 					String[] links = strs[1].split("\t");
 					long len = links.length;
@@ -61,7 +61,7 @@ public class PageRankStep2 {
 			for(DoubleWritable value:values){
 				sum += value.get();
 			}
-			double p = A * sum + (1 - A) * 0.00001571314;
+			double p = A * sum + (1 - A) * 0.00001571314; //A为心灵转移参数,sum为本次计算的概率
 			context.write(new Text(key), new Text("a\t" + p));
 		}
 		

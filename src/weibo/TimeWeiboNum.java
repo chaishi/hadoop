@@ -14,7 +14,6 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.bigdata.util.HadoopConfig;
 
-
 /**
  * 统计不同时间段，微博数量，了解用户微博活动时间
  * @author 雪

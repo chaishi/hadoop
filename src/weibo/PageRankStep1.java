@@ -46,6 +46,7 @@ public class PageRankStep1 {
 					out = str;
 				}
 			}
+			//1000562531	0.00001571314#1691761292	2093879035
 			context.write(new Text(key), new Text(p + "#" + out));
 		}
 		
