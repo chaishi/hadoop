@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>hotTopicSort</title>
+    <link rel='stylesheet' href='css/style.css' type='text/css' />
+   
+</head>
+<body>
+	<div id="nav">
+	    <div class="nav-menu">
+			<a href="provinceCity.html">provinceCityUsernum</a>
+	        <a href="TimeWeibo.html">TimeWeiboNum</a>
+	        <a href="weiboActi.html">weiboActivityDegree</a>
+	        <a href="hotTop.html"  class="current">hotTopicSort</a>
+	        <a href="genderPer.html">GenderPercentage</a>
+	        <a href="topInfluenceRelation.html">TopInfluenceMan</a>  
+	    </div>
+	    <div class="nav-current"></div>
+	</div>
+	
+	<div class = "bigTitle">统计topics热门程度</div><br><br><br>
+	
+	<div class="title1">一、数据分析</div><br>
+	<img  src="images/hotTopic1.png">
+	<img  src="images/hotTopic2.png">
+	<br><br><br><br><br>
+	
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div class="title1">二、数据可视化</div><br>
+    <div id="main" style="height:400px"></div>
+    
+    <div class="title1">三、数据的意义</div><br>
+   <div class="title2"> 
+        <p>通过关键词的热议度，反映微博热议情况及映舆论走势。</p>   
+        <p>对所要研究的舆论事件热议走势进行阶段分析，并结合相关的微博可详细梳理舆论的形成和发展过程。</p>
+     	<br><br>
+     </div>
+    <!-- ECharts单文件引入 -->
+    <script type="text/javascript" src="js/jquery.min.js" ></script>
+     <script type="text/javascript" src="js/nav.js"></script>
+    <script src="dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+            'echarts',
+                'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+                ],
+                function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+                
+               var option = {
+				    title : {
+				        text: '微博热点',
+				        subtext: '点击量统计',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {
+				        orient : 'vertical',
+				        x : 'left',
+				        data:[]
+				    },
+				    toolbox: {
+				        show : true,
+				        feature : {
+				            mark : {show: true},
+				            dataView : {show: true, readOnly: false},
+				            magicType : {
+				                show: true, 
+				                type: ['pie', 'funnel'],
+				                option: {
+				                    funnel: {
+				                        x: '25%',
+				                        width: '50%',
+				                        funnelAlign: 'left',
+				                        max: 1548
+				                    }
+				                }
+				            },
+				            restore : {show: true},
+				            saveAsImage : {show: true}
+				        }
+				    },
+				    calculable : true,
+				    series : [
+				        {
+				            name:'访问来源',
+				            type:'pie',
+				            radius : '75%',
+				            center: ['50%', '60%'],
+				            data:[
+				            ]
+				        }
+				    ]
+				};
+                    
+				$.getJSON(
+	            	"json/hotTopicSort.json",
+	            	function(data) {
+	                    for(var i = 0; i < data.rows.length; i++){
+	                    	option.series[0].data[i] = {};
+	                    	option.series[0].data[i].value = data.rows[i].topic;
+	                    	option.legend.data[i] = data.rows[i].number;
+	                    	option.series[0].data[i].name  = data.rows[i].number;
+	                    }
+	                    myChart.setOption(option); 
+	        		}
+	            );     
+	           
+                // 为echarts对象加载数据 
+                
+
+                // 图表清空-------------------
+               // myChart.clear();
+
+                // 图表释放-------------------
+                //myChart.dispose();
+            }
+            );
+</script>
+</body>
+</html>

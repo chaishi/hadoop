@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TimeWeiboNum</title>
+    <link rel='stylesheet' href='css/style.css' type='text/css' />
+   
+</head>
+<body>
+	 <div id="nav">
+	    <div class="nav-menu">
+			<a href="provinceCity.html">provinceCityUsernum</a>
+	        <a href="TimeWeibo.html" class="current">TimeWeiboNum</a>
+	        <a href="weiboActi.html">weiboActivityDegree</a>
+	        <a href="hotTop.html">hotTopicSort</a>
+	        <a href="genderPer.html">GenderPercentage</a>
+	        <a href="topInfluenceRelation.html">TopInfluenceMan</a>  
+	    </div>
+	    <div class="nav-current"></div>
+	</div>
+	
+	<div class = "bigTitle">统计各个时间段发表的微博数量</div><br><br><br>
+	
+	<div class="title1">一、数据分析</div><br>
+	<img  src="images/timeWeiboNum.png">
+	<br><br><br><br><br>
+	
+	<div class="title1">二、数据可视化</div><br>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height:400px"></div>
+    
+    <div class="title1">三、数据的意义</div><br>
+    <div class="title2"> 
+    	<p>一天各段时间微博活跃用户统计反映了人们生活习惯，作息规律。</p>   
+    	<p>同时也反映出发布信息的时间应该与用户生活、工作时间规律密切相关，这对于用户是否能够良好掌握舆论有着重要作用。</p>
+    	<br><br>
+	 </div>
+    <!-- ECharts单文件引入 -->
+    <script type="text/javascript" src="js/jquery.min.js" ></script>
+     <script type="text/javascript" src="js/nav.js"></script>
+    <script src="dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+            'echarts',
+                'echarts/chart/line',
+            'echarts/chart/bar',
+            'echarts/chart/scatter',
+            'echarts/chart/k',
+            'echarts/chart/pie',
+            'echarts/chart/radar',
+            'echarts/chart/force',
+            'echarts/chart/chord',
+            'echarts/chart/map',
+            'echarts/chart/gauge',
+            'echarts/chart/funnel',
+            'echarts/chart/venn',
+            'echarts/chart/treemap',
+            'echarts/chart/eventRiver'
+                ],
+                function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+                
+               var option = {
+					    title : {
+					        text: '每段时间用户数量统计',
+					        subtext: '用户数量统计'
+					    },
+					    tooltip : {
+					        trigger: 'axis'
+					    },
+					    legend: {
+					        data:['用户数量']
+					    },
+					    toolbox: {
+					        show : true,
+					        feature : {
+					            mark : {show: true},
+					            dataView : {show: true, readOnly: false},
+					            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+					            restore : {show: true},
+					            saveAsImage : {show: true}
+					        }
+					    },
+					    calculable : true,
+					    xAxis : [
+					        {
+					            type : 'category',
+					            boundaryGap : false,
+					            data : ['周一','周二','周三','周四','周五','周六','周日']
+					        }
+					    ],
+					    yAxis : [
+					        {
+					            type : 'value'
+					        }
+					    ],
+					    series : [
+					        {
+					            name:'用户数量',
+					            type:'line',
+					            smooth:true,
+					            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+					            data:[10, 12, 21, 54, 260, 830, 710]
+					        }
+					    ]
+					};
+                    
+                    
+				$.getJSON(
+	            	"json/TimeWeiboNum.json",
+	            	function(data) {
+	                    for(var i = 0; i < data.rows.length; i++){
+	                    	option.series[0].data[i] = data.rows[i].number;
+	                    	option.xAxis[0].data[i] = data.rows[i].time;
+	                    }
+	                    myChart.setOption(option); 
+	        		}
+	            );  
+	           
+                // 为echarts对象加载数据 
+                
+
+                // 图表清空-------------------
+               // myChart.clear();
+
+                // 图表释放-------------------
+                //myChart.dispose();
+            }
+            );
+</script>
+</body>
+</html>

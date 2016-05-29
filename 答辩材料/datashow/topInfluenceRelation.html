@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>topInfluenceRelation</title>
+     <link rel='stylesheet' href='css/style.css' type='text/css' />  
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+     <div id="nav">
+	    <div class="nav-menu">
+			<a href="provinceCity.html">provinceCityUsernum</a>
+	        <a href="TimeWeibo.html">TimeWeiboNum</a>
+	        <a href="weiboActi.html">weiboActivityDegree</a>
+	        <a href="hotTop.html">hotTopicSort</a>
+	        <a href="genderPer.html">GenderPercentage</a>
+	        <a href="topInfluenceRelation.html"  class="current">TopInfluenceMan</a>  
+	    </div>
+	    <div class="nav-current"></div>
+	</div>
+
+	<div class = "bigTitle">统计用户影响力</div><br><br><br>
+
+	
+	<div class="title1">一、数据分析</div><br>
+
+	<p>算法：Google pageRank</p>
+	<p>公式：V' = A * MV + (1 - A)*e</p>
+	<p>图形化过程：</p>
+	<img  src="images/pageRankStop.png" style = "width:400px;height:300px;">
+		<img  src="images/pageRankXian.png" style = "width:400px;height:300px;"><br><br>
+	<p class="pageRankExp">
+		
+		<img  src="images/pageRankExp.png">
+	<p>
+	<br><br><br>
+
+	<img  src="images/topInfluence.png">
+	<img  src="images/topInfluence1.png">
+	<img  src="images/topInfluence2.png">
+	<img  src="images/topInfluence3.png">
+	<img  src="images/topInfluence4.png">
+	<img  src="images/topInfluence5.png">
+	<img  src="images/topInfluence6.png">
+	<br><br><br><br><br>
+	
+	<div class="title1">二、数据可视化</div><br>
+    <div id="main" style="height:1000px"></div>
+    
+    <div class="title1">三、数据的意义</div><br>
+    <div class="title2"> 
+    	<p>微博用户关注关系反应的是整个微博网络的拓扑结构和网络密度状态，间接反映用户行为的动机。</p>   
+    	<p>同时也可以考察用户的微博影响力，作为微博营销的一种方式。</p>
+    	<br><br>
+	 </div>
+    <!-- ECharts单文件引入 -->
+    <script type="text/javascript" src="js/jquery.min.js" ></script>
+     <script type="text/javascript" src="js/nav.js"></script>
+    <script src="dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+            'echarts',
+                'echarts/chart/force',
+            'echarts/chart/chord',
+            'echarts/chart/map'
+                ],
+                function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+                
+               var option = {
+					    title : {
+					        text: '微博热点人物关系',
+					        subtext: '数据来自微博',
+					        x:'right',
+					        y:'bottom'
+					    },
+					    tooltip : {
+					        trigger: 'item',
+					        formatter: '{a} : {b}'
+					    },
+					    toolbox: {
+					        show : true,
+					        feature : {
+					            restore : {show: true},
+					            magicType: {show: true, type: ['force', 'chord']},
+					            saveAsImage : {show: true}
+					        }
+					    },
+					    legend: {
+					        x: 'left',
+					        data:[]
+					    },
+					    series : [
+					        {
+					            type:'force',
+					            name : "人物关系",
+					            ribbonType: false,
+					            categories : [
+					                {
+					                    name: '人物'
+					                },
+					                {
+					                    name: '家人'
+					                },
+					                {
+					                    name:'朋友'
+					                }
+					            ],
+					            itemStyle: {
+					                normal: {
+					                    label: {
+					                        show: true,
+					                        textStyle: {
+					                            color: '#333'
+					                        }
+					                    },
+					                    nodeStyle : {
+					                        brushType : 'both',
+					                        borderColor : 'rgba(255,215,0,0.4)',
+					                        borderWidth : 1
+					                    },
+					                    linkStyle: {
+					                        type: 'curve'
+					                    }
+					                },
+					                emphasis: {
+					                    label: {
+					                        show: false
+					                        // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+					                    },
+					                    nodeStyle : {
+					                        //r: 30
+					                    },
+					                    linkStyle : {}
+					                }
+					            },
+					            useWorker: false,
+					            minRadius : 10,
+					            maxRadius : 35,
+					            gravity:4.1,
+					            scaling: 3.1,
+					             linkSymbol: 'arrow',
+					            roam: 'move',
+					            nodes:[],
+					            links : []
+					        }
+					    ]
+					};
+                    
+				$.getJSON(
+	            	"json/TopInfluenceMan.json",
+	            	function(data) {
+	            		var array = [];
+	            		for(var i = 0; i < 210; i++){
+	            			array[i] = 0;
+	            		}
+	            		for(var i = 0; i < data.rows.length; i++){
+	                    	array[data.rows[i].userId]=data.rows[i].userName;
+	                    }
+	            		var k = 0, h = 0, l = 0;
+	                    for(var i = data.rows.length-1; i >= 140; i--){
+	                    	option.series[0].nodes[i] = {};
+	                    	if(k <= 20){
+	                    		k++;
+	                    	}else{
+	                    		k = 0;
+	                    		h++;
+	                    	}
+	                    	option.series[0].nodes[i].category = h;
+	                    	option.series[0].nodes[i].name = data.rows[i].userName;
+	                    	var value = new Number(data.rows[i].influence*100000);
+	                    	option.series[0].nodes[i].value = value.toFixed(6);
+	                    	for(var j = 0; j<data.rows[i].relationUsers.length;j++){
+	                    		option.series[0].links[l] = {};
+	                    		option.series[0].links[l].target = data.rows[i].userName;
+	                    		//option.series[0].links[l].weight = data.rows[i].relationUsers.length;
+	                    		if(array[data.rows[i].relationUsers[j]]!=0){
+	                    			option.series[0].links[l].source = array[data.rows[i].relationUsers[j]];
+	                    		}else{
+	                    			option.series[0].links[l].source = array[data.rows[0].userId];
+	                    		}
+	                    		l++;
+	                    	}            	
+	                    }
+	                    var ecConfig = require('echarts/config');
+						function focus(param) {
+						    var data = param.data;
+						    var links = option.series[0].links;
+						    var nodes = option.series[0].nodes;
+						    if (
+						        data.source !== undefined
+						        && data.target !== undefined
+						    ) { //点击的是边
+						        var sourceNode = nodes.filter(function (n) {return n.name == data.source})[0];
+						        var targetNode = nodes.filter(function (n) {return n.name == data.target})[0];
+						        console.log("选中了边 " + sourceNode.name + ' -> ' + targetNode.name + ' (' + data.weight + ')');
+						    } else { // 点击的是点
+						        console.log("选中了" + data.name + '(' + data.value + ')');
+						    }
+						}
+						myChart.on(ecConfig.EVENT.CLICK, focus)
+						
+						myChart.on(ecConfig.EVENT.FORCE_LAYOUT_END, function () {
+						    console.log(myChart.chart.force.getPosition());
+						});
+	                    myChart.setOption(option); 
+	        		}
+	            );     
+	           
+                // 为echarts对象加载数据 
+                
+
+                // 图表清空-------------------
+               // myChart.clear();
+
+                // 图表释放-------------------
+                //myChart.dispose();
+            }
+            );
+</script>
+</body>
+</html>

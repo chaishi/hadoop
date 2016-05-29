@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>provinceCityUsernum</title>
+   <link rel='stylesheet' href='css/style.css' type='text/css' />
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="nav">
+	    <div class="nav-menu">
+			<a href="provinceCity.html" class="current">provinceCityUsernum</a>
+	        <a href="TimeWeibo.html">TimeWeiboNum</a>
+	        <a href="weiboActi.html">weiboActivityDegree</a>
+	        <a href="hotTop.html">hotTopicSort</a>
+	        <a href="genderPer.html">GenderPercentage</a>
+	        <a href="topInfluenceRelation.html">TopInfluenceMan</a>  
+	    </div>
+	    <div class="nav-current"></div>
+	</div>
+	
+	<div class = "bigTitle">统计各省份微博用户数量</div><br><br><br>
+	
+	<div class="title1">一、数据分析</div><br>
+	<img  src="images/provinceCityUserNum.png">
+	<br><br><br><br><br>
+	
+	<div class="title1">二、数据可视化</div><br>
+    <div id="main" style="height:400px"></div><br>
+    
+    <div class="title1">三、数据的意义</div><br>
+    <div class="title2"> 
+    	<p>不同省份微博用户数量不同，粗略地反映了微博在各个地区的受欢迎程度。如果源数据有每个省份的人数，便可计算出各个省份微博用户占总人数的百分比，更能体现微博在各个地区的推广力度。</p>   
+    	<p>同时也在一定程度上反映了地区经济发展水平。在一些经济发展较好的地区，人们跟里面进互联网时代，每日刷着微博，看看自己的好友都在说些什么。而对于一些发展不太好的地区，只有基本的生活保障，没有精力也没有金钱在互联网中稍刷流量</p>
+    	<br><br>
+    	<!-- 同时也一定程度上反映了用户的行为特性，不同地域的用户关注的重点和热门话题不同，参与程度不同，都会对用户群体集群及其行为表现产生一定影响 -->
+	 </div>
+    
+    <!-- ECharts单文件引入 -->
+    <script type="text/javascript" src="js/jquery.min.js" ></script>
+ 	<script type="text/javascript" src="js/nav.js"></script>
+    <script src="dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+            'echarts',
+                'echarts/chart/line',
+            'echarts/chart/bar',
+            'echarts/chart/scatter',
+            'echarts/chart/k',
+            'echarts/chart/pie',
+            'echarts/chart/radar',
+            'echarts/chart/force',
+            'echarts/chart/chord',
+            'echarts/chart/map',
+            'echarts/chart/gauge',
+            'echarts/chart/funnel',
+            'echarts/chart/venn',
+            'echarts/chart/treemap',
+            'echarts/chart/eventRiver'
+                ],
+                function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+                
+               var option = {
+					    title : {
+					        text: '统计各省份微博用户数量',
+					        subtext: '点击量统计'
+					    },
+					    tooltip : {
+					        trigger: 'axis'
+					    },
+					    legend: {
+					        data:['用户数量']
+					    },
+					    toolbox: {
+					        show : true,
+					        feature : {
+					            mark : {show: true},
+					            dataView : {show: true, readOnly: false},
+					            magicType : {show: true, type: ['line', 'bar']},
+					            restore : {show: true},
+					            saveAsImage : {show: true}
+					        }
+					    },
+					    calculable : true,
+					    xAxis : [
+					        {
+					            type : 'category',
+					            data : []
+					        }
+					    ],
+					    yAxis : [
+					        {
+					            type : 'value'
+					        }
+					    ],
+					    series : [
+					        {
+					            name:'用户数量',
+					            type:'bar',
+					            data:[],
+					            markPoint : {
+					                data : [
+					                ]
+					            }
+					        }
+					    ]
+					};
+                    
+				                    
+                    
+				$.getJSON(
+	            	"json/provinceCityUsernum.json",
+	            	function(data) {
+	                    for(var i = 0; i < data.rows.length; i++){
+	                    	option.series[0].data[i] = data.rows[i].userCount;
+	                    	option.xAxis[0].data[i] = data.rows[i].province;
+	                    }
+	                    myChart.setOption(option); 
+	        		}
+	            );     
+	           
+                // 为echarts对象加载数据 
+                
+
+                // 图表清空-------------------
+               // myChart.clear();
+
+                // 图表释放-------------------
+                //myChart.dispose();
+            }
+            );
+</script>
+</body>
+</html>

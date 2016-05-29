@@ -1,0 +1,28 @@
+{
+"rows":[
+		{"time":0,	"number":4007},
+		{"time":1,	"number":1613},
+		{"time":2,	"number":711},
+		{"time":3,	"number":422},
+		{"time":4,	"number":345},
+		{"time":5,	"number":551},
+		{"time":6,	"number":1147},
+		{"time":7,	"number":2255},
+		{"time":8,	"number":4072},
+		{"time":9,	"number":4571},
+		{"time":10,	"number":4379},
+		{"time":11,	"number":3894},
+		{"time":12,	"number":3625},
+		{"time":13,	"number":4376},
+		{"time":14,	"number":4381},
+		{"time":15,	"number":4232},
+		{"time":16,	"number":4179},
+		{"time":17,	"number":4295},
+		{"time":18,	"number":4238},
+		{"time":19,	"number":3964},
+		{"time":20,	"number":4369},
+		{"time":21,	"number":5951},
+		{"time":22,	"number":6453},
+		{"time":23,	"number":6138}
+	]
+}

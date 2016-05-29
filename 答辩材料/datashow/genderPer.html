@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>GenderPercentage</title>
+       <link rel='stylesheet' href='css/style.css' type='text/css' />
+</head>
+<body>
+    <div id="nav">
+	    <div class="nav-menu">		
+	     	<a href="provinceCity.html">provinceCityUsernum</a>
+	        <a href="TimeWeibo.html">TimeWeiboNum</a>
+	        <a href="weiboActi.html">weiboActivityDegree</a>
+	        <a href="hotTop.html">hotTopicSort</a>
+	        <a href="genderPer.html" class="current">GenderPercentage</a>
+	        <a href="topInfluenceRelation.html">TopInfluenceMan</a>       
+	    </div>
+	    <div class="nav-current"></div>
+	</div>
+	
+	<div class = "bigTitle">统计topics男女比例</div><br><br><br>
+	
+	<div class="title1">一、数据分析</div><br>
+	<img  src="images/genderPercentage1.png">
+	<img  src="images/genderPercentage2.png"><br>
+	<img  src="images/genderPercentage3.png">
+	<br><br><br><br><br>
+	
+	<div class="title1">二、数据可视化</div><br>
+    <div id="main" style="height:400px"></div>
+    
+    <div class="title1">三、数据的意义</div><br>
+    <div class="title2"> 
+        <p>反映了不同性别的行为差异，性别不同对事物表现出的兴趣也不同，自然的话题关注度不同。</p> 
+        <p>根据这些数据，广告商选择广告发布地点时，可作参考。比如，韩剧，据统计，女性对韩剧关注度高出很多，韩剧发行商便可多在女性多的地方加大宣传。</p>
+        <br><br>
+     </div>
+    <!-- ECharts单文件引入 -->
+    <script type="text/javascript" src="js/jquery.min.js" ></script>
+     <script type="text/javascript" src="js/nav.js"></script>
+    <script src="dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+            'echarts',
+                'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+                ],
+                function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+                
+               var option = {
+					    title : {
+					        text: '微博热点男女点击量分布',
+					        subtext: '点击量统计'
+					    },
+					    tooltip : {
+					        trigger: 'axis'
+					    },
+					    legend: {
+					        data:['男','女']
+					    },
+					    toolbox: {
+					        show : true,
+					        feature : {
+					            mark : {show: true},
+					            dataView : {show: true, readOnly: false},
+					            magicType : {show: true, type: ['line', 'bar']},
+					            restore : {show: true},
+					            saveAsImage : {show: true}
+					        }
+					    },
+					    calculable : true,
+					    xAxis : [
+					        {
+					            type : 'category',
+					            data : []
+					        }
+					    ],
+					    yAxis : [
+					        {
+					            type : 'value'
+					        }
+					    ],
+					    series : [
+					        {
+					            name:'男',
+					            type:'bar',
+					            data:[],
+					            markPoint : {
+					                data : [
+					                    {type : 'max', name: '最大值'},
+					                    {type : 'min', name: '最小值'}
+					                ]
+					            }
+					        },
+					        {
+					            name:'女',
+					            type:'bar',
+					            data:[],
+					            markPoint : {
+					                data : [
+					                    {type : 'max', name: '最大值'},
+					                    {type : 'min', name: '最小值'}
+					                ]
+					            }
+					        }
+					    ]
+					};
+                    
+				$.getJSON(
+	            	"json/GenderPercentage.json",
+	            	function(data) {
+	                    for(var i = 0; i < data.rows.length; i++){
+	             
+	                    	option.series[0].data[i] = data.rows[i]["男"];
+	                    	option.series[1].data[i] = data.rows[i]["女"];
+	                    	option.xAxis[0].data[i] = data.rows[i].topic;
+	                    }
+	                    myChart.setOption(option); 
+	        		}
+	            );  
+	           
+                // 为echarts对象加载数据 
+                
+
+                // 图表清空-------------------
+               // myChart.clear();
+
+                // 图表释放-------------------
+                //myChart.dispose();
+            }
+            );
+</script>
+</body>
+</html>

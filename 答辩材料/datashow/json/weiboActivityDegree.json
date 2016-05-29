@@ -1,0 +1,19 @@
+{
+	"rows":[
+		{"range_low":0, "range_high":"1500", 	"number":31714, "percentage":"49.83265504941783%"},
+{"range_low":1500, "range_high":"3000", 	"number":11370, "percentage":"17.865841202998066%"},
+{"range_low":3000, "range_high":"4500", 	"number":6209, "percentage":"9.75628918464512%"},
+{"range_low":4500, "range_high":"6000", 	"number":3522, "percentage":"5.534168224886472%"},
+{"range_low":6000, "range_high":"7500", 	"number":2353, "percentage":"3.697302053707516%"},
+{"range_low":7500, "range_high":"9000", 	"number":1662, "percentage":"2.6115240175358654%"},
+{"range_low":9000, "range_high":"10500", 	"number":1245, "percentage":"1.9562860420169388%"},
+{"range_low":10500, "range_high":"12000", 	"number":913, "percentage":"1.4346097641457551%"},
+{"range_low":12000, "range_high":"13500", 	"number":722, "percentage":"1.134488772960827%"},
+{"range_low":13500, "range_high":"15000", 	"number":603, "percentage":"0.9475023962539871%"},
+{"range_low":15000, "range_high":"16500", 	"number":439, "percentage":"0.6898068854983422%"},
+{"range_low":16500, "range_high":"18000", 	"number":348, "percentage":"0.5468173033107587%"},
+{"range_low":18000, "range_high":"19500", 	"number":327, "percentage":"0.5138197074213164%"},
+{"range_low":19500, "range_high":"21000", 	"number":259, "percentage":"0.4069703493031222%"},
+{"range_low":20000, "range_high":"以上", 	"number":1955, "percentage":"3.0719190458980847%"}
+	]
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>weiboActivityDegree</title>
+     <link rel='stylesheet' href='css/style.css' type='text/css' />
+   
+</head>
+<body>
+	 <div id="nav">
+	    <div class="nav-menu">
+			<a href="provinceCity.html">provinceCityUsernum</a>
+            <a href="TimeWeibo.html">TimeWeiboNum</a>
+            <a href="weiboActi.html"  class="current">weiboActivityDegree</a>
+            <a href="hotTop.html">hotTopicSort</a>
+            <a href="genderPer.html">GenderPercentage</a>
+            <a href="topInfluenceRelation.html">TopInfluenceMan</a>  
+	    </div>
+	    <div class="nav-current"></div>
+	</div>
+	
+	<div class = "bigTitle">统计微博用户活跃度</div><br><br><br>
+	
+	<div class="title1">一、数据分析</div><br>
+	<img  src="images/activityDegree.png">
+	<br><br><br><br><br>
+	
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div class="title1">二、数据可视化</div><br>
+    <div id="main" style="height:400px"></div>
+    
+    <div class="title1">三、数据的意义</div><br>
+   <div class="title2"> 
+        <p>统计反映了整个微博用户的活跃度。</p> 
+        <p>根据统计可以看出，发表微博数量在0~1500范围内的微博用户数量接近整个微博用户数量的一半，可见微博新用户或者活跃程度较低的用户偏多。</p>
+        <p>根据统计也可以看出，超级活跃的用户也不在少数，发表活转发微博数量超过20000的数量也达到了1955。</p>
+        <br><br>
+    </div>
+    <!-- ECharts单文件引入 -->
+    <script type="text/javascript" src="js/jquery.min.js" ></script>
+     <script type="text/javascript" src="js/nav.js"></script>
+    <script src="dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+            'echarts',
+                'echarts/chart/bar',
+            'echarts/chart/funnel'
+                ],
+                function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+                
+               var option = {
+    title : {
+        text: '微博各阶段活跃用户数量统计',
+        subtext: '用户数量'
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['用户数量']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType: {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'value',
+            boundaryGap : [0, 0.01]
+        }
+    ],
+    yAxis : [
+        {
+            type : 'category',
+            data : ['巴西','印尼','美国','印度','中国','世界人口(万)']
+        }
+    ],
+    series : [
+        {
+            name:'用户数量',
+            type:'bar',
+            data:[18203, 23489, 29034, 104970, 131744, 630230]
+        }
+    ]
+};
+                    
+                                     
+                    
+				$.getJSON(
+	            	"json/weiboActivityDegree.json",
+	            	function(data) {
+	                    for(var i = 0; i < data.rows.length; i++){
+	                    	option.series[0].data[i] = data.rows[i].number;
+	                    	option.yAxis[0].data[i] = data.rows[i].range_low+'-'+data.rows[i].range_high;
+	                    }
+	                    myChart.setOption(option); 
+	        		}
+	            );     
+	           
+                // 为echarts对象加载数据 
+                
+
+                // 图表清空-------------------
+               // myChart.clear();
+
+                // 图表释放-------------------
+                //myChart.dispose();
+            }
+            );
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+#nav {
+    position: relative;
+    margin: 20px auto 50px auto;
+    width: 100%;
+    border-bottom: 2px #ddd solid;
+    _width: 100%;
+}
+#nav .nav-menu {
+    height: 50px;
+}
+#nav .nav-menu a {
+    float: left;
+    display: block;
+    padding: 0 40px;
+    height: 50px;
+    color: #666;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 50px;
+}
+#nav .nav-current {
+    position: absolute;
+    bottom: -2px;
+    overflow: hidden;
+    height: 2px;
+    background: #80b600;
+}
+
+.title1{
+	font-size: 25px;
+	font-weight: bold;
+}
+.title2{
+    font-size: 20px;
+    font-family: "微软雅黑";
+    text-indent: 4em;
+    color:#333;
+}
+.bigTitle{
+	font-size: 25px;
+	font-weight: bold;
+	color:#8fa571;
+	width: 100%;
+	text-align: center;
+}
+
+.pageRankExp{
+    width:100%;
+    text-align: center;
+}
